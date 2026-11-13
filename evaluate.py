@@ -14,12 +14,14 @@ def similarity(s1, s2):
     with torch.no_grad():
         return torch.sigmoid(model(a, b)).item()
 
-pairs = [
-    ("The company reported record profits this year.", "This year the firm posted its highest ever earnings."),
-    ("The company reported record profits this year.", "The company reported record losses this year."),
-    ("The students finished the assignment before the deadline.", "The assignment was completed by the students ahead of time."),
-    ("The students finished the assignment before the deadline.", "The weather in Kolkata is humid in July."),
-    ("She bought a new laptop for college.", "She purchased a new computer for university."),
-]
-for s1, s2 in pairs:
-    print(f"{similarity(s1, s2):.2f}  |  {s1}  <->  {s2}")
+print("Plagiarism-by-Meaning Detector")
+print("Type two sentences and I'll tell you if they mean the same thing.")
+
+while True:
+    s1 = input("\nSentence 1 (or 'q' to quit): ")
+    if s1.strip().lower() == "q":
+        break
+    s2 = input("Sentence 2: ")
+    score = similarity(s1, s2)
+    verdict = "SAME MEANING (possible copy)" if score > 0.5 else "DIFFERENT"
+    print(f"Similarity: {score:.2f} -> {verdict}")
